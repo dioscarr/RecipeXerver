@@ -7,7 +7,7 @@ async function getOpenAIresponse(input) {
         prompt: `${input}`,
         model: "text-davinci-003",
         temperature: 0.7,
-        max_tokens: 500,
+        max_tokens: 200,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
@@ -20,6 +20,7 @@ async function getOpenAIresponse(input) {
           'Access-Control-Allow-Headers': 'Content-Type',
         },
       });
+      console.log(response.data.choices[0].text);
       return response.data.choices[0].text;
     } catch (error) {
       console.error(error);

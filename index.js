@@ -9,7 +9,13 @@ const app = express()
 
 app.use(cors());
 
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(bodyParser.json());
+
+
+
 app.get('/openai', async (req, res) => {
 
   const input = req.query.input;
@@ -19,10 +25,11 @@ app.get('/openai', async (req, res) => {
 
 app.post('/openai', async (req, res) => {
 
-  const input = req.query.input;
-  console.log(req.query.input)
+  const input = req.body.input;
+  console.log(`input: ${input}`)
   const responseText = await openai.getOpenAIresponse(input);
   res.send(responseText);
+  
 });
 
 app.get('/', (req, res) => {
