@@ -22,7 +22,7 @@ async function getOpenAIresponse(input) {
           'Access-Control-Allow-Headers': 'Content-Type',
         },
       });
-      console.log(response.data.choices[0].text);
+      console.log(`response: ${response.data.choices[0].text}`);
       return response.data.choices[0].text;
     } catch (error) {
       console.error(error);
