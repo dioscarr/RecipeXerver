@@ -33,7 +33,7 @@ async function getOpenAIresponse(input) {
     console.log("Hello")
     try {
       const response = await axios.post('https://api.openai.com/v1/completions', {
-        prompt: `Name one recipe that I can do with: ${input}\n`,
+        prompt: `${input} recipes\n max of 3 words description`,
         model: "text-davinci-003",
         temperature: 0,
         max_tokens: 50,
