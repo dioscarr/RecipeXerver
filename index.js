@@ -37,7 +37,7 @@ app.post('/GetRecipeSuggestions', async (req, res) => {
 
   const input = req.body.input;
   console.log(`input: ${input}`)
-  const responseText = await openai.getOpenAIresponse(input);
+  const responseText = await openai.GetRecipeSuggestions(input);
   res.send(responseText);
   
 });
