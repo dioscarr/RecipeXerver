@@ -4,7 +4,7 @@ async function getOpenAIresponse(input) {
     console.log("getOpenAIresponse")
     try {
       const response = await axios.post('https://api.openai.com/v1/completions', {
-        prompt: `${encoded(input)}`,
+        prompt: `${encode(input)}`,
         model: "text-davinci-003",
         temperature: 0,
         max_tokens: 100,
@@ -33,7 +33,7 @@ async function getOpenAIresponse(input) {
     console.log("GetRecipeSuggestions")
     try {
       const response = await axios.post('https://api.openai.com/v1/completions', {
-        prompt: `${encoded(input)}`,
+        prompt: `${encode(input)}`,
         model: "text-davinci-003",
         temperature: 0,
         max_tokens: 300,
