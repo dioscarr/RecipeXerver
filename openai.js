@@ -4,7 +4,7 @@ async function getOpenAIresponse(input) {
     console.log("getOpenAIresponse")
     try {
       const response = await axios.post('https://api.openai.com/v1/completions', {
-        prompt: `${encode(input)}`,
+        prompt: `${input}`,
         model: "text-davinci-003",
         temperature: 0,
         max_tokens: 100,
@@ -23,7 +23,7 @@ async function getOpenAIresponse(input) {
         },
       });
       console.log(`response: ${response.data.choices[0].text}`);
-      return decode(response.data.choices[0].text);
+      return response.data.choices[0].text;
     } catch (error) {
       console.error(error);
     }
@@ -33,7 +33,7 @@ async function getOpenAIresponse(input) {
     console.log("GetRecipeSuggestions")
     try {
       const response = await axios.post('https://api.openai.com/v1/completions', {
-        prompt: `${encode(input)}`,
+        prompt: `${input}`,
         model: "text-davinci-003",
         temperature: 0,
         max_tokens: 300,
@@ -52,7 +52,7 @@ async function getOpenAIresponse(input) {
         },
       });
       console.log(`response: ${response.data.choices[0].text}`);
-      return decode(response.data.choices[0].text);
+      return response.data.choices[0].text;
     } catch (error) {
       console.error(error);
     }
