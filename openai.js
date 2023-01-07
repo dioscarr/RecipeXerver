@@ -36,7 +36,7 @@ async function getOpenAIresponse(input) {
         prompt: `${input} recipes\n max of 3 words description`,
         model: "text-davinci-003",
         temperature: 0,
-        max_tokens: 50,
+        max_tokens: 300,
         top_p: 1,
         frequency_penalty: 0.0,
         presence_penalty: 0.0,
