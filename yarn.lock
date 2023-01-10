@@ -137,6 +137,11 @@ cors@^2.8.5:
     object-assign "^4"
     vary "^1"
 
+country-state-city@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/country-state-city/-/country-state-city-3.1.2.tgz#8b155a1bb17aaf03bac4193382e59c161f74f063"
+  integrity sha512-qpzY7GyzqgJsx5TQUak0ryhbMcn1bLN1mgQc37EWkJMOEbszrAMowjzmisnf8ybhLBnbesZ1LK3KTc7SUX1T1w==
+
 dateformat@^4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/dateformat/-/dateformat-4.6.3.tgz#556fa6497e5217fedb78821424f8a1c22fa3f4b5"
@@ -407,6 +412,11 @@ joycon@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/joycon/-/joycon-3.1.1.tgz#bce8596d6ae808f8b68168f5fc69280996894f03"
   integrity sha512-34wB/Y7MW7bzjKRjUKTa46I2Z7eV62Rkhva+KkopW7Qvv/OSWBqvkSY7vusOPrNuZcUG3tApvdVgNB8POj3SPw==
+
+list-of-us-cities@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/list-of-us-cities/-/list-of-us-cities-1.0.1.tgz#a3b5d075d8e9ec9b5eaec568d68a9f413072f168"
+  integrity sha512-bFfAt82JbkPUXO/6MioDpOoXcavDKZDnt7RHzkLQcGhBB3ZZr1jbyU7r3hQPIS3pJzQz0Y5HJXVuQfdQ2CGKOg==
 
 media-typer@0.3.0:
   version "0.3.0"

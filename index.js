@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const router = express.Router();
 const openai = require('./openai');
+const uscities = require('./uscities');
 const cors = require('cors');
 
 const app = express()
@@ -14,7 +15,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
-
+app.get('/uscities', async (req, res) => {
+  const input = req.query.input;
+  console.log(uscities.Cities.getCitiesOfCountry("US").map((x)=>`${x.name}, ${x.stateCode}`))
+  const formattedcities =uscities.Cities.getCitiesOfCountry("US").map((x)=>`${x.name}, ${x.stateCode}`);
+  res.send(formattedcities);
+});
 
 app.get('/openai', async (req, res) => {
 
@@ -32,7 +38,6 @@ app.post('/openai', async (req, res) => {
   
 });
 
-
 app.post('/GetRecipeSuggestions', async (req, res) => {
 
   const input = req.body.input;
@@ -48,5 +53,6 @@ app.get('/', (req, res) => {
 
 app.listen(3000, () => {
   console.log('http://localhost:3000/openai');
+  console.log('http://localhost:3000/uscities');
 });
 
