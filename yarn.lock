@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@tonybadguy/call-me-maybe@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@tonybadguy/call-me-maybe/-/call-me-maybe-2.1.1.tgz#0758e4528e76ab1e17aef08ff96ab3304afa001d"
+  integrity sha512-Gc7G5o5Wd5I0d3ohzoZmqb1Jowr8sGURcFmGsoqiPk2ydFjwtYXRQTb4eYoJ1dZqdBlQGHRmL5mmbiMm4Kl2/w==
+  dependencies:
+    caseless "^0.11.0"
+    error "^7.0.2"
+    small-request "^2.1.0"
+    string-template "^1.0.0"
+
 abort-controller@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/abort-controller/-/abort-controller-3.0.0.tgz#eaf54d53b62bae4138e809ca225c8439a6efb392"
@@ -94,6 +104,11 @@ call-bind@^1.0.0:
   dependencies:
     function-bind "^1.1.1"
     get-intrinsic "^1.0.2"
+
+caseless@^0.11.0:
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.11.0.tgz#715b96ea9841593cc33067923f5ec60ebda4f7d7"
+  integrity sha512-ODLXH644w9C2fMPAm7bMDQ3GRvipZWZfKc+8As6hIadRIelE0n0xZuN38NS6kiK3KPEVrpymmQD8bvncAHWQkQ==
 
 colorette@^2.0.7:
   version "2.0.19"
@@ -190,6 +205,13 @@ end-of-stream@^1.1.0:
   integrity sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==
   dependencies:
     once "^1.4.0"
+
+error@^7.0.2:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/error/-/error-7.2.1.tgz#eab21a4689b5f684fc83da84a0e390de82d94894"
+  integrity sha512-fo9HBvWnx3NGUKMvMwB/CBCMMrfEJgbDTVDEkPygA3Bdd3lM1OyCd+rbQ8BwnpF6GdVeOLDNmyL4N5Bg80ZvdA==
+  dependencies:
+    string-template "~0.2.1"
 
 escape-html@~1.0.3:
   version "1.0.3"
@@ -667,6 +689,13 @@ real-require@^0.2.0:
   resolved "https://registry.yarnpkg.com/real-require/-/real-require-0.2.0.tgz#209632dea1810be2ae063a6ac084fee7e33fba78"
   integrity sha512-57frrGM/OCTLqLOAh0mhVA9VBMHd+9U7Zb2THMGdBUoZVOtGbJzjxsYGDJ3A9AYYCP4hn6y1TVbaOfzWtm5GFg==
 
+request-function@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/request-function/-/request-function-2.0.0.tgz#27aace27f871e3c2fd48a19dad75ca384c4b8654"
+  integrity sha512-tw6kEYJp+JPLEjcEBFEtAvtDFUHY50LtrSAJHKXaos2+geAXSKjKNdA2wwTsqDq8YKl1i3+TJ60AjUb5exaM8A==
+  dependencies:
+    error "^7.0.2"
+
 safe-buffer@5.2.1, safe-buffer@~5.2.0:
   version "5.2.1"
   resolved "https://registry.yarnpkg.com/safe-buffer/-/safe-buffer-5.2.1.tgz#1eaf9fa9bdb1fdd4ec75f58f9cdb4e6b7827eec6"
@@ -730,6 +759,13 @@ side-channel@^1.0.4:
     get-intrinsic "^1.0.2"
     object-inspect "^1.9.0"
 
+small-request@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/small-request/-/small-request-2.1.0.tgz#b1015a5047ca140b0a23ab2e0403bbe8d136beb3"
+  integrity sha512-tQlteNci7wsIsmt7KoyZj0izeuY718NBeKVhJdWxTmQHKsJp4INUhWLTJ000EzNu9p41TqbGPOrSl0wroK581Q==
+  dependencies:
+    request-function "^2.0.0"
+
 sonic-boom@^3.0.0, sonic-boom@^3.1.0:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-3.2.1.tgz#972ceab831b5840a08a002fa95a672008bda1c38"
@@ -746,6 +782,16 @@ statuses@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
   integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
+
+string-template@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/string-template/-/string-template-1.0.0.tgz#9e9f2233dc00f218718ec379a28a5673ecca8b96"
+  integrity sha512-SLqR3GBUXuoPP5MmYtD7ompvXiG87QjT6lzOszyXjTM86Uu7At7vNnt2xgyTLq5o9T4IxTYFyGxcULqpsmsfdg==
+
+string-template@~0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/string-template/-/string-template-0.2.1.tgz#42932e598a352d01fc22ec3367d9d84eec6c9add"
+  integrity sha512-Yptehjogou2xm4UJbxJ4CxgZx12HBfeystp0y3x7s4Dj32ltVVG1Gg8YhKjHZkHicuKpZX/ffilA8505VbUbpw==
 
 string_decoder@^1.1.1:
   version "1.3.0"
@@ -803,3 +849,10 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
+
+yelp-fusion@^2.0.2:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/yelp-fusion/-/yelp-fusion-2.2.1.tgz#3433d90f32cd7d62a8e0518e2c3a83cc6bd13c3d"
+  integrity sha512-gXX9kukjSH/owGS1q13zSaT066ZeQ+8QutuPwiz6OpIZ6E+nEop+hObGHKTR5HjPaEeEoVTvf7f6TqyLgiNICg==
+  dependencies:
+    "@tonybadguy/call-me-maybe" "^2.1.1"
