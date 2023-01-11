@@ -1,34 +1,23 @@
 
-function run() {
-  const url = setUpQuery();
+const run = (siteurl)=> {
+  const url =`https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${siteurl}/&key=AIzaSyCgeRubpcxw8fb1EeJulHtwlfMgr_HcQHw`;// setUpQuery(siteurl);
+  console.log(url);
   fetch(url)
     .then(response => response.json())
     .then(json => {
-      // See https://developers.google.com/speed/docs/insights/v5/reference/pagespeedapi/runpagespeed#response
-      // to learn more about each of the properties in the response object.
-      showInitialContent(json.id);
-      const cruxMetrics = {
-        "First Contentful Paint": json.loadingExperience.metrics.FIRST_CONTENTFUL_PAINT_MS.category,
-        "First Input Delay": json.loadingExperience.metrics.FIRST_INPUT_DELAY_MS.category
-      };
-      showCruxContent(cruxMetrics);
-      const lighthouse = json.lighthouseResult;
-      const lighthouseMetrics = {
-        'First Contentful Paint': lighthouse.audits['first-contentful-paint'].displayValue,
-        'Speed Index': lighthouse.audits['speed-index'].displayValue,
-        'Time To Interactive': lighthouse.audits['interactive'].displayValue,
-        'First Meaningful Paint': lighthouse.audits['first-meaningful-paint'].displayValue,
-        'First CPU Idle': lighthouse.audits['first-cpu-idle'].displayValue,
-        'Estimated Input Latency': lighthouse.audits['estimated-input-latency'].displayValue
-      };
-      showLighthouseContent(lighthouseMetrics);
+        console.log("insights from google")
+        console.log(json);
+        return json;
     });
 }
 
 function setUpQuery(siteurl) {
+    const urli = encodeURIComponent(`${siteurl}`) +"/&key=AIzaSyCgeRubpcxw8fb1EeJulHtwlfMgr_HcQHw";
+    console.log(urli);
+    
   const api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed';
   const parameters = {
-    url: encodeURIComponent(`${siteurl}`)
+    url:urli
   };
   let query = `${api}?`;
   for (key in parameters) {

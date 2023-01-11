@@ -7,7 +7,7 @@ const categories = async ()=>{
             'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
         },
     }).then(response => {       
-        return response.data.categories.map((c)=>c.alias).join();
+        return response.data.categories.map((c)=>c.alias).sort(() => Math.random() - 0.5).join();
     }).catch(error => {
         console.log(error);
         return error;
@@ -20,7 +20,7 @@ const categories = async ()=>{
 const BusinessSearchByLocationCategories = async (location,categoriesString)=>
 {
         const response =  axios
-        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categoriesString.split(",").slice(0,20).join())}`,{
+        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categoriesString.split(",").slice(0,2).join())}`,{
             headers: {
                 accept: 'application/json',
                 'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
