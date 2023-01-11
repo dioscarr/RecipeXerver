@@ -7,6 +7,7 @@ const uscities = require('./uscities');
 const yelp = require('./apis/yelp');
 const pyYelp = require('./apis/pyYelp');
 const gpSpeed = require('./apis/googleSpeedPage');
+const GenerateImage = require('./apis/bytoImage');
 const cors = require('cors');
 
 const app = express()
@@ -18,6 +19,12 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+
+app.get('/GenerateImage', async (req, res) => {
+
+ GenerateImage.GenerateImage();
+  res.send("done!");
+});
 app.get('/uscities', async (req, res) => {
   const input = req.query.input;
   
@@ -25,6 +32,19 @@ app.get('/uscities', async (req, res) => {
   res.send(formattedcities);
 });
 
+app.get('/BusinessSearch', async (req, res) => {
+  const state = req.query.state??"NY";
+  const limit = req.query.limit??50;
+  const location =uscities.Cities.getCitiesOfState("US",state).map((x)=>`${x.name} ${x.stateCode}`);
+  const categories =  await yelp.categories()
+   Promise.all( location.slice(0,limit>50?20:limit)
+          .map(async (locationX) => await yelp.BusinessSearchByLocation(locationX)
+          .then(async(data)=> {
+            return data;
+          })
+        ))
+        .then(data=>res.json(data))
+});
 app.get('/BusinessSearchByLocationCategories', async (req, res) => {
   const state = req.query.state??"NY";
   const limit = req.query.limit??20;
@@ -104,9 +124,11 @@ app.listen(3000, () => {
   console.log('http://localhost:3000/openai');
   console.log('http://localhost:3000/uscities');
   console.log('http://localhost:3000/yelp/categories');
+  console.log('http://localhost:3000/GenerateImage');
   console.log('http://localhost:3000/BusinessSearchByLocationCategories');
+  console.log('http://localhost:3000/BusinessSearch');
+  console.log('https://recipexerver.onrender.com/BusinessSearch');
   console.log('https://recipexerver.onrender.com/uscities');
   console.log('https://recipexerver.onrender.com/yelp/categories');
   console.log('https://recipexerver.onrender.com/BusinessSearchByLocationCategories?limit=3&state=NY');
 });
-

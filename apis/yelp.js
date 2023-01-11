@@ -26,6 +26,25 @@ const BusinessSearchByLocationCategories = async (location,categoriesString)=>
                 'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
             }})
         .then( (response)=> {
+            
+         return  response.data;
+        })
+        .catch((error)=> {
+            console.error(error);
+        });
+        return  response;
+}
+
+const BusinessSearchByLocation = async (location)=>
+{
+        const response =  axios
+        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}`,{
+            headers: {
+                accept: 'application/json',
+                'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
+            }})
+        .then( (response)=> {
+            
          return  response.data;
         })
         .catch((error)=> {
@@ -35,6 +54,6 @@ const BusinessSearchByLocationCategories = async (location,categoriesString)=>
 }
 
 
-module.exports = {categories,BusinessSearchByLocationCategories}
+module.exports = {categories,BusinessSearchByLocationCategories,BusinessSearchByLocation}
 
 //AIzaSyCgeRubpcxw8fb1EeJulHtwlfMgr_HcQHw
