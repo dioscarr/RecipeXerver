@@ -49,13 +49,18 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
   const state = req.query.state??"NY";
   const limit = req.query.limit??20;
   const location =uscities.Cities.getCitiesOfState("US",state).map((x)=>`${x.name} ${x.stateCode}`);
-  const categories =  await yelp.categories()
+  const categories1 =  await yelp.categories();
+  const categories = categories1.split(",").sort(function() {
+    return 0.5 - Math.random();
+  }).slice(0,2).join();
+
    Promise.all( location.slice(0,limit>20?20:limit)
           .map(async (locationX) => await yelp.BusinessSearchByLocationCategories(locationX,categories)
           .then(async(data)=> {
             if( data !=undefined && data !=="undefined" && data != null)
             {
-                  returnData = data.businesses.map((business)=>business.url);      
+                const business =data.businesses[0];
+                  const returnData = data.businesses.map((business)=>business.url);      
                   return await pyYelp.GetBusinessURL(returnData[0]?.split("=")[0])
                   .then((data)=> 
                   {
@@ -65,19 +70,18 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
                        
                         var domain = decodedUrl?.replace("&cachebuster","")?.split("=")[1]??decodedUrl;
                         const url = new URL(domain);
-                         domain = (url.protocol + '//' + url.host);
-                                             
+                         domain = (url.protocol + '//' + url.host);                                           
                        
                         if(domain ==undefined && domain ==="undefined")
                           domain = decodedUrl
-                        //console.log(domain); 
-                        return domain;
+                        console.log({name:returnData.name,phone:returnData.phone,url:domain,citystate:locationX,categories:categories,review_count:returnData.review_count}); 
+                      return {name:business.name,phone:business.phone,url:domain,citystate:locationX,categories:categories,review_count:business.review_count};
                         // if(domain != undefined && domain!=="undefined" && domain!=null)
                         //   return gpSpeed.run(`https://www.${domain}`);
                       }
                       else
                       {
-                        return "";
+                        return {name:'',phone:'',url:'',citystate:'',categories:'',review_count:0};
                       }
                 });
             }

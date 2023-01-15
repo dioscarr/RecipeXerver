@@ -20,7 +20,7 @@ const categories = async ()=>{
 const BusinessSearchByLocationCategories = async (location,categoriesString)=>
 {
         const response =  axios
-        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categoriesString.split(",").slice(0,2).join())}`,{
+        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categoriesString)}`,{
             headers: {
                 accept: 'application/json',
                 'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
