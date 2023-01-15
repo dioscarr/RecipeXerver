@@ -90,7 +90,7 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
                       }
                       else
                       {
-                        return {name:'',phone:'',url:'',citystate:'',categories:'',review_count:0};
+                        return {name:'',phone:'',url:'',citystate:'',categories:'',review_count:0,zip:'',rating:''}
                       }
                 });
             }
