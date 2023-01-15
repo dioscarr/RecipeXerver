@@ -108,6 +108,11 @@ app.get('/yelp/categories', async (req, res) => {
   console.log(categories)
   res.send(categories);
 });
+app.get('/yelp/categoriesandaliases', async (req, res) => {
+  const categories =  await yelp.categoriesandaliases()
+  console.log(categories)
+  res.send(categories);
+});
 
 app.get('/openai', async (req, res) => {
 
@@ -140,11 +145,13 @@ app.listen(3000, () => {
   console.log('http://localhost:3000/openai');
   console.log('http://localhost:3000/uscities');
   console.log('http://localhost:3000/yelp/categories');
+  console.log('http://localhost:3000/yelp/categoriesandaliases');
   console.log('http://localhost:3000/GenerateImage');
   console.log('http://localhost:3000/BusinessSearchByLocationCategories?limit=1&state=NY');
   console.log('http://localhost:3000/BusinessSearch');
   console.log('https://recipexerver.onrender.com/BusinessSearch?limit=50&state=NY');
   console.log('https://recipexerver.onrender.com/uscities');
   console.log('https://recipexerver.onrender.com/yelp/categories');
+  console.log('https://recipexerver.onrender.com/yelp/categoriesandaliases');
   console.log('https://recipexerver.onrender.com/BusinessSearchByLocationCategories?limit=3&state=NY');
 });

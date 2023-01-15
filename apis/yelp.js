@@ -16,6 +16,22 @@ const categories = async ()=>{
     console.log(responseDataFormatted);
     return responseDataFormatted;
 }   
+const categoriesandaliases = async ()=>{
+
+    const responseData = await axios.get('https://api.yelp.com/v3/categories', {
+        headers: {
+            'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
+        },
+    }).then(response => {       
+        return response.data.categories;
+    }).catch(error => {
+        console.log(error);
+        return error;
+    });
+    const responseDataFormatted = responseData;
+    console.log(responseDataFormatted);
+    return responseDataFormatted;
+}   
 
 const BusinessSearchByLocationCategories = async (location,categoriesString)=>
 {
@@ -54,6 +70,6 @@ const BusinessSearchByLocation = async (location)=>
 }
 
 
-module.exports = {categories,BusinessSearchByLocationCategories,BusinessSearchByLocation}
+module.exports = {categories,BusinessSearchByLocationCategories,BusinessSearchByLocation,categoriesandaliases}
 
 //AIzaSyCgeRubpcxw8fb1EeJulHtwlfMgr_HcQHw
