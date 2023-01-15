@@ -75,7 +75,7 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
                         if(domain ==undefined && domain ==="undefined")
                           domain = decodedUrl
                         console.log({name:returnData.name,phone:returnData.phone,url:domain,citystate:locationX,categories:categories,review_count:returnData.review_count}); 
-                      return {name:business.name,phone:business.phone,url:domain,citystate:locationX,categories:categories,review_count:business.review_count};
+                      return {name:business.name,phone:business.phone,url:domain,citystate:locationX,categories:business.categories.map(x=>x.title).join(),review_count:business.review_count};
                         // if(domain != undefined && domain!=="undefined" && domain!=null)
                         //   return gpSpeed.run(`https://www.${domain}`);
                       }
@@ -132,7 +132,7 @@ app.listen(3000, () => {
   console.log('http://localhost:3000/uscities');
   console.log('http://localhost:3000/yelp/categories');
   console.log('http://localhost:3000/GenerateImage');
-  console.log('http://localhost:3000/BusinessSearchByLocationCategories');
+  console.log('http://localhost:3000/BusinessSearchByLocationCategories?limit=1&state=NY');
   console.log('http://localhost:3000/BusinessSearch');
   console.log('https://recipexerver.onrender.com/BusinessSearch?limit=50&state=NY');
   console.log('https://recipexerver.onrender.com/uscities');
