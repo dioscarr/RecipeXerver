@@ -82,8 +82,8 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
                         categories:business.categories.map(x=>x.title).join(),
                         review_count:business.review_count,
                         zip:business.location.zip_code,
-                        rating:business.rating,
-                        price:business.price
+                        rating:business.rating
+                    
                       };
                         // if(domain != undefined && domain!=="undefined" && domain!=null)
                         //   return gpSpeed.run(`https://www.${domain}`);
