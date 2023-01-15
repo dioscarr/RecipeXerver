@@ -75,7 +75,16 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
                         if(domain ==undefined && domain ==="undefined")
                           domain = decodedUrl
                         console.log({name:returnData.name,phone:returnData.phone,url:domain,citystate:locationX,categories:categories,review_count:returnData.review_count}); 
-                      return {name:business.name,phone:business.phone,url:domain,citystate:locationX,categories:business.categories.map(x=>x.title).join(),review_count:business.review_count};
+                      return {name:business.name,
+                        phone:business.phone,
+                        url:domain,
+                        citystate:locationX,
+                        categories:business.categories.map(x=>x.title).join(),
+                        review_count:business.review_count,
+                        zip:business.location.zip_code,
+                        rating:business.rating,
+                        price:business.price
+                      };
                         // if(domain != undefined && domain!=="undefined" && domain!=null)
                         //   return gpSpeed.run(`https://www.${domain}`);
                       }
