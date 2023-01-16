@@ -48,14 +48,20 @@ app.get('/BusinessSearch', async (req, res) => {
 app.get('/BusinessSearchByLocationCategories', async (req, res) => {
   const state = req.query.state??"NY";
   const limit = req.query.limit??20;
-  const location =uscities.Cities.getCitiesOfState("US",state).map((x)=>`${x.name} ${x.stateCode}`);
-  const categories1 =  await yelp.categories();
-  const categories = categories1.split(",").sort(function() {
-    return 0.5 - Math.random();
-  }).slice(0,2).join();
+  const location = req.query.location;
+  const category = req.query.category;
 
-   Promise.all( location.slice(0,limit>20?20:limit)
-          .map(async (locationX) => await yelp.BusinessSearchByLocationCategories(locationX,categories)
+  //const location =uscities.Cities.getCitiesOfState("US",state).map((x)=>`${x.name} ${x.stateCode}`);
+  //const categories1 =  await yelp.categories();
+  
+  //const categories = categories1.split(",").sort(function() {
+  //  return 0.5 - Math.random();
+  //}).slice(0,2).join();
+
+   Promise.all( 
+          //location.slice(0,limit>20?20:limit)
+          //.map(async (locationX) => await yelp.BusinessSearchByLocationCategories(locationX,categories)
+          await yelp.BusinessSearchByLocationCategories(location,category)
           .then(async(data)=> {
             if( data !=undefined && data !=="undefined" && data != null)
             {
@@ -98,7 +104,8 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
               return "";
             }
           })
-        ))
+        //)
+        )
         .then(data=>res.json(data))
 });
 app.get('/yelp/categories', async (req, res) => {
