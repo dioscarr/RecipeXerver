@@ -36,7 +36,7 @@ const categoriesandaliases = async ()=>{
 const BusinessSearchByLocationCategories = async (location,categoriesString)=>
 {
         const response =  axios
-        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categoriesString)}`,{
+        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=10000&location=${encodeURIComponent(location)}&categories=${encodeURIComponent(categoriesString)}`,{
             headers: {
                 accept: 'application/json',
                 'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
@@ -54,7 +54,7 @@ const BusinessSearchByLocationCategories = async (location,categoriesString)=>
 const BusinessSearchByLocation = async (location)=>
 {
         const response =  axios
-        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=1&location=${encodeURIComponent(location)}`,{
+        .get(`https://api.yelp.com/v3/businesses/search?sort_by=best_match&limit=10000&location=${encodeURIComponent(location)}`,{
             headers: {
                 accept: 'application/json',
                 'Authorization': `Bearer ${process.env.YELP_API_KEY}`,
