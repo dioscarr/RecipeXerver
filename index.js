@@ -19,6 +19,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+  res.send('Hello World');
+});
 
 app.get('/GenerateImage', async (req, res) => {
 
@@ -49,8 +52,12 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
   try {
     const state = req.query.state ?? "NY";
     const limit = req.query.limit ?? 20;
-    const location = req.query.location;
-    const category = req.query.category;
+    const location = req.query?.location??"";
+    const category = req.query?.category??"";
+    
+    if (location ==="" && !category ==="") {
+      throw new Error("location and category parameters are required! Those should be lower case");
+    }
 
     // Get business data from Yelp API
     const yelpData = await yelp.BusinessSearchByLocationCategories(location, category);
@@ -132,9 +139,6 @@ app.post('/GetRecipeSuggestions', async (req, res) => {
   res.send(responseText);  
 });
 
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
 app.listen(3002, () => {
   console.log('http://localhost:3000/openai');
