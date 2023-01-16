@@ -46,68 +46,56 @@ app.get('/BusinessSearch', async (req, res) => {
         .then(data=>res.json(data))
 });
 app.get('/BusinessSearchByLocationCategories', async (req, res) => {
-  const state = req.query.state??"NY";
-  const limit = req.query.limit??20;
-  const location = req.query.location;
-  const category = req.query.category;
+  try {
+    const state = req.query.state ?? "NY";
+    const limit = req.query.limit ?? 20;
+    const location = req.query.location;
+    const category = req.query.category;
 
-  //const location =uscities.Cities.getCitiesOfState("US",state).map((x)=>`${x.name} ${x.stateCode}`);
-  //const categories1 =  await yelp.categories();
-  
-  //const categories = categories1.split(",").sort(function() {
-  //  return 0.5 - Math.random();
-  //}).slice(0,2).join();
+    // Get business data from Yelp API
+    const yelpData = await yelp.BusinessSearchByLocationCategories(location, category);
 
-   Promise.all( 
-          //location.slice(0,limit>20?20:limit)
-          //.map(async (locationX) => await yelp.BusinessSearchByLocationCategories(locationX,categories)
-          await yelp.BusinessSearchByLocationCategories(location,category)
-          .then(async(data)=> {
-            if( data !=undefined && data !=="undefined" && data != null)
-            {
-                const business =data.businesses[0];
-                  const returnData = data.businesses.map((business)=>business.url);      
-                  return await pyYelp.GetBusinessURL(returnData[0]?.split("=")[0])
-                  .then((data)=> 
-                  {
-                      if(data!= undefined && data!=="N/A")
-                      {
-                        const decodedUrl = decodeURIComponent(data); 
-                       
-                        var domain = decodedUrl?.replace("&cachebuster","")?.split("=")[1]??decodedUrl;
-                        const url = new URL(domain);
-                         domain = (url.protocol + '//' + url.host);                                           
-                       
-                        if(domain ==undefined && domain ==="undefined")
-                          domain = decodedUrl
-                        console.log({name:returnData.name,phone:returnData.phone,url:domain,citystate:locationX,categories:categories,review_count:returnData.review_count}); 
-                      return {name:business.name,
-                        phone:business.phone,
-                        url:domain,
-                        citystate:locationX,
-                        categories:business.categories.map(x=>x.title).join(),
-                        review_count:business.review_count,
-                        zip:business.location.zip_code,
-                        rating:business.rating
-                    
-                      };
-                        // if(domain != undefined && domain!=="undefined" && domain!=null)
-                        //   return gpSpeed.run(`https://www.${domain}`);
-                      }
-                      else
-                      {
-                        return {name:'',phone:'',url:'',citystate:'',categories:'',review_count:0,zip:'',rating:''}
-                      }
-                });
-            }
-            else{
-              return "";
-            }
-          })
-        //)
-        )
-        .then(data=>res.json(data))
+    // Check if data is valid
+    if (!yelpData || !yelpData.businesses) {
+      throw new Error("Invalid data received from Yelp API");
+    }
+
+    // Get URLs of businesses
+    const businessUrls = yelpData.businesses.map((business) => business.url);
+
+    // Get additional business data from pyYelp API
+    const businessData = await Promise.all(
+      businessUrls.map(async (url) => {
+        const business = yelpData.businesses.find((b) => b.url === url);
+        const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[0]));
+        var domain = decodedUrl ?.replace("&cachebuster", "")?.split("=")[1] ?? decodedUrl;
+        const url1 = new URL(domain);
+        domain = (url1.protocol + '//' + url1.host);
+        if(domain ==undefined && domain ==="undefined")
+         domain = decodedUrl
+        //console.log({name:returnData.name,phone:returnData.phone,url:domain,citystate:location,categories:business.categories.map(x=>x.title).join(),review_count:returnData.review_count}); 
+        return {
+          name: business.name,
+          phone: business.phone,
+          url: domain,
+          citystate: location,
+          categories: business.categories.map((x) => x.title).join(),
+          review_count: business.review_count,
+          zip: business.location.zip_code,
+          rating: business.rating,
+        };
+      })
+    );
+
+    // Send response to client
+    res.json(businessData);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("An error occurred while processing the request");
+  }
 });
+
+
 app.get('/yelp/categories', async (req, res) => {
   const input = req.query.input;
 
@@ -148,7 +136,7 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-app.listen(3000, () => {
+app.listen(3002, () => {
   console.log('http://localhost:3000/openai');
   console.log('http://localhost:3000/uscities');
   console.log('http://localhost:3000/yelp/categories');
