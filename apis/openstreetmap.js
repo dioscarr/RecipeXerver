@@ -13,8 +13,9 @@ const openstreetmap = async(zip_code)=>{
         .then(result =>{
             const latitude = result.data[0]['lat'];
             const longitude = result.data[0]['lon'];
+            const boundingbox = result.data[0]['boundingbox']
             console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-            return {Latitude: latitude, Longitude: longitude};    
+            return {Latitude: latitude, Longitude: longitude,boundingbox:boundingbox};    
         });    
 
         return response;

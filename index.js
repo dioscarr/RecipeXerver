@@ -55,7 +55,7 @@ app.get('/ziptolatlon', async (req, res) =>
       const zip_code = parseInt(req.query.zip)??13039;
      await openstreetmap(zip_code)
       .then(result=>{
-        res.status(200).json({zip:zip_code,Latitude:result.Latitude,Longitude:result.Longitude});
+        res.status(200).json({zip:zip_code,Latitude:result.Latitude,Longitude:result.Longitude,boundingbox:result.boundingbox});
       })
   } catch (error) {
     console.Error(error);
