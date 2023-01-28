@@ -8,6 +8,7 @@ const yelp = require('./apis/yelp');
 const pyYelp = require('./apis/pyYelp');
 const gpSpeed = require('./apis/googleSpeedPage');
 const GenerateImage = require('./apis/bytoImage');
+const openstreetmap = require('./apis/openstreetmap');
 const cors = require('cors');
 
 const app = express()
@@ -40,13 +41,27 @@ app.get('/BusinessSearch', async (req, res) => {
   const limit = req.query.limit??50;
   const location =uscities.Cities.getCitiesOfState("US",state).map((x)=>`${x.name} ${x.stateCode}`);
   const categories =  await yelp.categories()
-   Promise.all( location.slice(0,limit>50?20:limit)
-          .map(async (locationX) => await yelp.BusinessSearchByLocation(locationX)
-          .then(async(data)=> {
-            return data;
+  Promise.all( location.slice(0,limit>50?20:limit)
+  .map(async (locationX) => await yelp.BusinessSearchByLocation(locationX)
+  .then(async(data)=> {
+    return data;
           })
         ))
         .then(data=>res.json(data))
+      });
+app.get('/ziptolatlon', async (req, res) => 
+{
+    try {
+      const zip_code = parseInt(req.query.zip)??13039;
+     await openstreetmap(zip_code)
+      .then(result=>{
+        res.status(200).json({zip:zip_code,Latitude:result.Latitude,Longitude:result.Longitude});
+      })
+  } catch (error) {
+    console.Error(error);
+    res.status(500).send(error);
+  }
+
 });
 app.get('/BusinessSearchByLocationCategories', async (req, res) => {
   try {
@@ -169,16 +184,18 @@ app.post('/GetRecipeSuggestions', async (req, res) => {
 
 
 app.listen(3002, () => {
-  console.log('http://localhost:3000/openai');
-  console.log('http://localhost:3000/uscities');
-  console.log('http://localhost:3000/yelp/categories');
-  console.log('http://localhost:3000/yelp/categoriesandaliases');
-  console.log('http://localhost:3000/GenerateImage');
-  console.log('http://localhost:3000/BusinessSearchByLocationCategories?limit=1&state=NY');
-  console.log('http://localhost:3000/BusinessSearch');
+  console.log('http://localhost:3002/openai');
+  console.log('http://localhost:3002/uscities');
+  console.log('http://localhost:3002/yelp/categories');
+  console.log('http://localhost:3002/yelp/categoriesandaliases');
+  console.log('http://localhost:3002/GenerateImage');
+  console.log('http://localhost:3002/BusinessSearchByLocationCategories?limit=1&state=NY');
+  console.log('http://localhost:3002/BusinessSearch');
+  console.log('http://localhost:3002/ziptolatlon?zip=10040');
   console.log('https://recipexerver.onrender.com/BusinessSearch?limit=50&state=NY');
   console.log('https://recipexerver.onrender.com/uscities');
   console.log('https://recipexerver.onrender.com/yelp/categories');
   console.log('https://recipexerver.onrender.com/yelp/categoriesandaliases');
   console.log('https://recipexerver.onrender.com/BusinessSearchByLocationCategories?limit=3&state=NY');
+  console.log('https://recipexerver.onrender.com/ziptolatlon?zip=10040');
 });
