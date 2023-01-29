@@ -52,13 +52,13 @@ app.get('/BusinessSearch', async (req, res) => {
 app.get('/ziptolatlon', async (req, res) => 
 {
     try {
-      const zip_code = parseInt(req.query.zip)??13039;
+      const zip_code = req.query.zip??"13039";
      await openstreetmap(zip_code)
       .then(result=>{
         res.status(200).json({zip:zip_code,Latitude:result.Latitude,Longitude:result.Longitude,boundingbox:result.boundingbox});
       })
   } catch (error) {
-    console.Error(error);
+    console.log(error);
     res.status(500).send(error);
   }
 
@@ -98,7 +98,8 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
         try {
           
        
-          const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[0]));
+        //  const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[0]));
+          const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[i]));
          
           console.log(`index ${i}`)
           console.log(`decodedUrl ${decodedUrl}`)
