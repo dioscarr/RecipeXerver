@@ -8,7 +8,7 @@ const GetBusinessURL = async(url)=>{
     const params = { url: url }
     
     const response = axios.get("https://pyyelp.onrender.com", { params })
-   // const response = axios.get("http://localhost:5000", { params })
+    //const response = await axios(`http://localhost:5000?url=${url}`)
     .then(response => {            
         return response.data;
 

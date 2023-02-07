@@ -92,14 +92,14 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
     // Get additional business data from pyYelp API
     console.log("Get additional business data from pyYelp API")
     const businessData = await Promise.all(
-      businessUrls.map(async (url,i) => {
-        const business = yelpData.businesses.find((b) => b.url === url);
+     businessUrls.map(async (url,i) => {
+         const business = yelpData.businesses.find((b) => b.url === url);
         
         try {
           
        
-        //  const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[0]));
-          const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[i]));
+          const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[0]));
+          //const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[i]));
          
           console.log(`index ${i}`)
           console.log(`decodedUrl ${decodedUrl}`)
@@ -137,7 +137,7 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
           }
       })
     );
-
+console.log(businessData);
     // Send response to client
     res.json(businessData);
   } catch (error) {
