@@ -63,6 +63,106 @@ app.get('/ziptolatlon', async (req, res) =>
   }
 
 });
+app.get('/FullBusinessSearchByLocationCategories', async (req, res) => {
+  try {
+    console.log("BusinessSearchByLocationCategories")
+    const state = req.query.state ?? "NY";
+    const limit = req.query.limit ?? 20;
+    const location = req.query?.location??"";
+    const category = req.query?.category??"";
+    
+    if (location ==="" && !category ==="") {
+      throw new Error("location and category parameters are required! Those should be lower case");
+    }
+
+    // Get business data from Yelp API
+    console.log("Get business data from Yelp API")
+    const yelpData = await yelp.BusinessSearchByLocationCategories(location, category);
+    
+    // Check if data is valid
+    console.log("Check if data is valid")
+    if (!yelpData || !yelpData.businesses) {
+      throw new Error("Invalid data received from Yelp API");
+    }
+    // Send response to client
+    res.json(yelpData);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("An error occurred while processing the request");
+  }
+});
+app.post('/FindBusinessUrls', async (req, res) => {
+  try {
+    console.log("BusinessSearchByLocationCategories")
+   
+    const location = req.query?.location??"";
+    const businesses = req.body.data??[];
+    const businessData = await Promise.all(
+      businesses.map(async (business,i) => {
+        
+        try {
+          
+       
+          const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(business.url.split("=")[0]));
+          //const decodedUrl = decodeURIComponent(await pyYelp.GetBusinessURL(url.split("=")[i]));
+         
+          console.log(`index ${i}`)
+          console.log(`decodedUrl ${decodedUrl}`)
+          if(decodedUrl==="N/A" || decodedUrl==="undefined" || decodedUrl ==="Exception")
+            return {
+              name: business.name,
+              phone: business.phone,
+              url: "N/A",
+              citystate: location,
+              categories: business.categories.map((x) => x.title).join(),
+              review_count: business.review_count,
+              zip: business.location.zip_code,
+              rating: business.rating,              
+            };
+            
+            var domain = decodedUrl ?.replace("&cachebuster", "")?.split("=")[1] ?? decodedUrl;
+            const url1 = new URL(domain);
+            domain = (url1.protocol + '//' + url1.host);
+            if(domain ==undefined && domain ==="undefined")
+            domain = decodedUrl
+            //console.log({name:returnData.name,phone:returnData.phone,url:domain,citystate:location,categories:business.categories.map(x=>x.title).join(),review_count:returnData.review_count}); 
+            return {
+              name: business.name,
+              phone: business.phone,
+              url: domain,
+              citystate: location,
+              categories: business.categories.map((x) => x.title).join(),
+              review_count: business.review_count,
+              zip: business.location.zip_code,
+              rating: business.rating,
+            };
+          } catch (error) {
+
+              console.error(error)
+              console.log()
+
+              return {
+                name: business.name,
+                phone: business.phone,
+                url: "N/A",
+                citystate: location,
+                categories: business.categories.map((x) => x.title).join(),
+                review_count: business.review_count,
+                zip: business.location.zip_code,
+                rating: business.rating,              
+              };
+          }
+      })
+    );
+    console.log(businessData);
+    // Send response to client
+    res.json(businessData);
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send("An error occurred while processing the request");
+  }
+});
+
 app.get('/BusinessSearchByLocationCategories', async (req, res) => {
   try {
     console.log("BusinessSearchByLocationCategories")
@@ -103,7 +203,7 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
          
           console.log(`index ${i}`)
           console.log(`decodedUrl ${decodedUrl}`)
-          if(decodedUrl==="N/A")
+          if(decodedUrl==="N/A" || decodedUrl==="undefined")
             return {
               name: business.name,
               phone: business.phone,
@@ -112,7 +212,7 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
               categories: business.categories.map((x) => x.title).join(),
               review_count: business.review_count,
               zip: business.location.zip_code,
-              rating: business.rating,
+              rating: business.rating,              
             };
             
             var domain = decodedUrl ?.replace("&cachebuster", "")?.split("=")[1] ?? decodedUrl;
@@ -132,8 +232,20 @@ app.get('/BusinessSearchByLocationCategories', async (req, res) => {
               rating: business.rating,
             };
           } catch (error) {
+
               console.error(error)
               console.log()
+
+              return {
+                name: business.name,
+                phone: business.phone,
+                url: "N/A",
+                citystate: location,
+                categories: business.categories.map((x) => x.title).join(),
+                review_count: business.review_count,
+                zip: business.location.zip_code,
+                rating: business.rating,              
+              };
           }
       })
     );
